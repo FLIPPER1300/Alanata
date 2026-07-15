@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .actions, .pager { margin-top: 1rem; display: flex; gap: 1rem; align-items: center; }
+        .message { color: #1f7a1f; }
+    </style>
+</head>
+<body>
+<h1>Library Books</h1>
+
+<p class="message" th:if="${successMessage}" th:text="${successMessage}"></p>
+
+<div class="actions">
+    <a th:href="@{/books/new}">Add new book</a>
+</div>
+
+<table th:if="${!#lists.isEmpty(booksPage.content)}">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Published year</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${booksPage.content}">
+        <td th:text="${book.title}">Title</td>
+        <td th:text="${book.author}">Author</td>
+        <td th:text="${book.isbn}">ISBN</td>
+        <td th:text="${book.publishedYear}">2000</td>
+    </tr>
+    </tbody>
+</table>
+
+<p th:if="${#lists.isEmpty(booksPage.content)}">No books found.</p>
+
+<div class="pager">
+    <a th:if="${!booksPage.first}" th:href="@{/books(page=${booksPage.page - 1},size=${booksPage.size})}">Previous</a>
+    <span th:text="'Page ' + ${booksPage.page + 1} + ' of ' + ${booksPage.totalPages}">Page 1 of 1</span>
+    <a th:if="${!booksPage.last}" th:href="@{/books(page=${booksPage.page + 1},size=${booksPage.size})}">Next</a>
+</div>
+
+</body>
+</html>
